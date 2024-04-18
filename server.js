@@ -1,7 +1,21 @@
+const mongoose = require('mongoose');
 const dotenv = require('dotenv'); //COMMAND is going to read the variables from the file
 dotenv.config({ path: './config.env' });
-
 const app = require('./app');
+
+/**
+ * Connecting to the mongoDB with mongoose
+ */
+
+const DATABASE_URI = process.env.DATABASE.replace(
+  '<PASSWORD>',
+  process.env.DATABASE_PASSWORD,
+);
+
+mongoose
+  .connect(DATABASE_URI)
+  .then(() => console.log('Database connection successful'))
+  .catch((err) => console.error('Database connection error:', err));
 
 //environment variables are global variables that are used to define the environment// express sets this env to development by default
 //console.log(app.get('env'));

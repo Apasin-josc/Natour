@@ -12,6 +12,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(express.json()); //express.json is just a middleware 🌓, it's called middleware because it's in the middle of the REQUEST AND THE RESPONSE
 //using middlewares to render static files like the html overview
+//http://localhost:8000/overview.html
 app.use(express.static(`${__dirname}/public`));
 //middleware 📍 convention by express "next" // this middleware is going to be applied for every request or response of the app (bc wew didn't specify the route)
 app.use((req, res, next) => {
@@ -32,6 +33,7 @@ app.use((req, res, next) => {
 //creating routers
 
 //this would be the middleware || tourRouter middleware and userRouter middleware
+//el tourRouter que importamos trae ese endpoint para ese api :)
 app.use('/api/v1/tours', tourRouter);
 app.use('/api/v1/users', userRouter);
 
