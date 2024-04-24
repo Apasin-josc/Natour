@@ -1,3 +1,5 @@
+//promisify method
+const {promisify} = require('util');
 const jwt = require('jsonwebtoken');
 //first thing is to import the user
 const User = require('./../models/userModel');
@@ -69,4 +71,34 @@ exports.login = catchAsync(async(req, res, next) => {
         status: 'success',
         token
     });
+});
+
+//this can help us to for example have a protected url where the users can only watch the content if they're logged in into the app
+//creating new middleware function to protect the get all tour routes --> tourRoutes
+exports.protect = catchAsync(async (req, res, next) => {
+    // 1) Getting token and check of it's there
+    let token;
+    if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith('Bearer')
+    ) {
+      token = req.headers.authorization.split(' ')[1];
+    }
+  
+    if (!token) {
+      return next(
+        new AppError('You are not logged in! Please log in to get access.', 401)
+      );
+    }
+  
+    // 2) Verification token
+    const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+    console.log(decoded);
+    //3 check if user still exists
+
+    //4  check if user changed password after the JWT was issued
+
+
+    //next is going to be executed and its going to display the getalltour routes
+    next();
 });

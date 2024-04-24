@@ -16,12 +16,14 @@ app.use(express.json()); //express.json is just a middleware 🌓, it's called m
 app.use(express.static(`${__dirname}/public`));
 //middleware 📍 convention by express "next" // this middleware is going to be applied for every request or response of the app (bc wew didn't specify the route)
 app.use((req, res, next) => {
-  console.log('hello from the middleware 👋');
+  //console.log('hello from the middleware 👋');
   next();
 });
 
+//middleware to request headers
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
+  //console.log(req.headers);
   next();
 });
 
